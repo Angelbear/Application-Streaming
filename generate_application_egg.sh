@@ -22,8 +22,8 @@ elif [ -f $1 ]; then
        PATTERN="$PATTERN\|$i"
     done
     echo $PATTERN
-    DELETE_FILES=`find -type f | grep -v "$PATTERN"`
-    echo $DELETE_FILES | xargs rm
+    DELETE_FILES=`find -type f -exec echo \"{}\" \; | grep -v "$PATTERN"`
+	echo $DELETE_FILES | xargs rm
     zip ../$TEMP_APK_NAME -r .
     cd ..
     rm -rf $TEMP_EXTRACT_DIR
