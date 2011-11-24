@@ -8,7 +8,8 @@ elif [ -f $1 ]; then
     ACTIVITY_CLASS=`aapt dump badging $1 | grep launchable-activity | sed  "s/.*name='//g" | sed "s/'.*label.*//g"`
     ICONS=`aapt dump badging $1 | grep application-icon- | sed "s/.*:'//g" | sed "s/'//g"`
     ACTIVITY_NAME=`echo $ACTIVITY_CLASS | sed "s/.*\.//g"`
-    cat ACTIVITY_TEMPLATE | sed "s/\$1/$PACKGE_NAME/g;s/\$2/$ACTIVITY_NAME/g" > $ACTIVITY_NAME.java
+	ACTIVITY_PACKAGE=`echo $ACTIVITY_CLASS | sed "s/\(.*\)\.\(.*\)/\1/g"`
+    cat ACTIVITY_TEMPLATE | sed "s/\$1/$ACTIVITY_PACKAGE/g;s/\$2/$ACTIVITY_NAME/g" > $ACTIVITY_NAME.java
     mkdir $TEMP_DIR
     $JAVAC -bootclasspath $BOOTCLASSPATH -d $TEMP_DIR  $ACTIVITY_NAME.java 
     rm $ACTIVITY_NAME.java
